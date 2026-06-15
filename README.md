@@ -93,6 +93,15 @@ NeuroPredict/
 ```
 
 ---
+---
+
+## 📺 Project Video Demonstration
+
+Click the thumbnail image below to watch project demo:
+
+[![Watch the Demo Video](https://img.shields.io/badge/YouTube-Video_Walkthrough-red?style=for-the-badge&logo=youtube)](https://youtu.be/nnvMKooAmEs)
+
+---
 
 ## Running Locally
 
