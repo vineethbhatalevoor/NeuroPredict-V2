@@ -1,0 +1,18 @@
+{
+  "status": "calibrated",
+  "unified_auc": 1.0,
+  "mean_sensitivity": 1.0,
+  "mean_specificity": 1.0,
+  "class_distributions": {
+    "0": 100,
+    "1": 100,
+    "2": 100,
+    "3": 100
+  },
+  "feature_importances": {
+    "Age": 0.0545,
+    "Sex": 0.0018,
+    "MMSE": 0.5118,
+    "UPDRS_III": 0.4319
+  }
+}

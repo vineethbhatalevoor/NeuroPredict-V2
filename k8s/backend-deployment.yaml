@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neuropredict-backend
+  namespace: neuropredict
+  labels:
+    app: neuropredict-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: neuropredict-backend
+  template:
+    metadata:
+      labels:
+        app: neuropredict-backend
+    spec:
+      containers:
+      - name: backend
+        image: neuropredict-registry.azurecr.io/backend:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://neuro_user:neuro_pass@timescaledb-service:5432/neuropredict_db"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: neuropredict-secrets
+              key: jwt-secret
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1024Mi"
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neuropredict-backend-service
+  namespace: neuropredict
+spec:
+  selector:
+    app: neuropredict-backend
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+  type: ClusterIP

@@ -1,0 +1,56 @@
+# ──────────────────────────────────────────────
+#  NeuroPredict — .gitignore
+# ──────────────────────────────────────────────
+
+# ── Large dataset folders (too big for GitHub) ──
+archive/
+ds004504-main/
+ntua-parkinson-dataset-master/
+Multiclass Alzheimer MRI (upsampled version of above)/
+
+# ── Trained model binary (regenerate with train_neuro_sift.py) ──
+backend/app/ai/trained_model.pkl
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+*.so
+.venv/
+venv/
+env/
+ENV/
+
+# ── Jupyter / IDE ──
+.ipynb_checkpoints/
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Node / frontend build ──
+node_modules/
+npm-debug.log*
+dist/
+.cache/
+
+# ── Docker ──
+*.env
+.env.local
+.env.production
+
+# ── Scratch / test files ──
+test_mri.py
+*.log
+
+# ── OS ──
+desktop.ini
+.DS_Store

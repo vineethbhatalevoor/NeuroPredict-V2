@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # FastAPI Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: neuropredict-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://neuro_user:neuro_pass@timescaledb:5432/neuropredict_db
+      - JWT_SECRET=NEUROPREDICT_SUPER_SECURE_JWT_SECRET_KEY_FOR_DEMONSTRATION
+    depends_on:
+      - timescaledb
+    networks:
+      - neuropredict-network
+    restart: always
+
+  # React Frontend (scaffold containerized environment)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: neuropredict-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - neuropredict-network
+    restart: always
+
+  # TimescaleDB database layer
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    container_name: neuropredict-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=neuro_user
+      - POSTGRES_PASSWORD=neuro_pass
+      - POSTGRES_DB=neuropredict_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - neuropredict-network
+    restart: always
+
+networks:
+  neuropredict-network:
+    driver: bridge
+
+volumes:
+  pgdata:

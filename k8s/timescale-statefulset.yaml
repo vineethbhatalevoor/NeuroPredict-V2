@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: timescaledb
+  namespace: neuropredict
+spec:
+  serviceName: timescaledb-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: timescaledb
+  template:
+    metadata:
+      labels:
+        app: timescaledb
+    spec:
+      containers:
+      - name: timescaledb
+        image: timescale/timescaledb:latest-pg15
+        ports:
+        - containerPort: 5432
+          name: dbport
+        env:
+        - name: POSTGRES_USER
+          value: "neuro_user"
+        - name: POSTGRES_PASSWORD
+          value: "neuro_pass"
+        - name: POSTGRES_DB
+          value: "neuropredict_db"
+        volumeMounts:
+        - name: timescaledb-storage
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: timescaledb-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: timescaledb-service
+  namespace: neuropredict
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: timescaledb
